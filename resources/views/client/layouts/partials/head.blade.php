@@ -28,5 +28,5 @@
 <meta property="og:url" content="" />
 <meta property="og:updated_time" content="2020-03-15T15:40:24+06:00" />
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> --}}
 

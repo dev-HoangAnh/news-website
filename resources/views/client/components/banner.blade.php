@@ -3,7 +3,13 @@
         <div class="col-lg-9 mx-auto">
             <h1 class="mb-5">{!! $pageName !!}</h1>
             <div>
-                {!! $pageContent !!}
+                <ul class="list-inline widget-list-inline">
+                    @foreach ($categories as $category)
+                        <li class="list-inline-item">
+                            <a href="{{ route('categories.show.client', $category->id) }}">{{ $category->name }}</a>
+                        </li>
+                    @endforeach
+                </ul>
             </div>
         </div>
     </div>
@@ -11,12 +17,11 @@
 
 <svg class="banner-shape-1" width="39" height="40" viewBox="0 0 39 40" fill="none"
     xmlns="http://www.w3.org/2000/svg">
-    <path d="M0.965848 20.6397L0.943848 38.3906L18.6947 38.4126L18.7167 20.6617L0.965848 20.6397Z"
-        stroke="#040306" stroke-miterlimit="10" />
-    <path class="path"
-        d="M10.4966 11.1283L10.4746 28.8792L28.2255 28.9012L28.2475 11.1503L10.4966 11.1283Z" />
-    <path d="M20.0078 1.62949L19.9858 19.3804L37.7367 19.4024L37.7587 1.65149L20.0078 1.62949Z"
-        stroke="#040306" stroke-miterlimit="10" />
+    <path d="M0.965848 20.6397L0.943848 38.3906L18.6947 38.4126L18.7167 20.6617L0.965848 20.6397Z" stroke="#040306"
+        stroke-miterlimit="10" />
+    <path class="path" d="M10.4966 11.1283L10.4746 28.8792L28.2255 28.9012L28.2475 11.1503L10.4966 11.1283Z" />
+    <path d="M20.0078 1.62949L19.9858 19.3804L37.7367 19.4024L37.7587 1.65149L20.0078 1.62949Z" stroke="#040306"
+        stroke-miterlimit="10" />
 </svg>
 
 <svg class="banner-shape-2" width="39" height="39" viewBox="0 0 39 39" fill="none"
@@ -29,11 +34,10 @@
             stroke="#040306" stroke-miterlimit="10" />
     </g>
     <defs>
-        <filter id="filter0_d" x="0.905273" y="0" width="37.8663" height="38.1979"
-            filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+        <filter id="filter0_d" x="0.905273" y="0" width="37.8663" height="38.1979" filterUnits="userSpaceOnUse"
+            color-interpolation-filters="sRGB">
             <feFlood flood-opacity="0" result="BackgroundImageFix" />
-            <feColorMatrix in="SourceAlpha" type="matrix"
-                values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
             <feOffset dy="4" />
             <feGaussianBlur stdDeviation="2" />
             <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0" />
@@ -45,16 +49,14 @@
 
 <svg class="banner-shape-3" width="39" height="40" viewBox="0 0 39 40" fill="none"
     xmlns="http://www.w3.org/2000/svg">
-    <path d="M0.965848 20.6397L0.943848 38.3906L18.6947 38.4126L18.7167 20.6617L0.965848 20.6397Z"
-        stroke="#040306" stroke-miterlimit="10" />
-    <path class="path"
-        d="M10.4966 11.1283L10.4746 28.8792L28.2255 28.9012L28.2475 11.1503L10.4966 11.1283Z" />
-    <path d="M20.0078 1.62949L19.9858 19.3804L37.7367 19.4024L37.7587 1.65149L20.0078 1.62949Z"
-        stroke="#040306" stroke-miterlimit="10" />
+    <path d="M0.965848 20.6397L0.943848 38.3906L18.6947 38.4126L18.7167 20.6617L0.965848 20.6397Z" stroke="#040306"
+        stroke-miterlimit="10" />
+    <path class="path" d="M10.4966 11.1283L10.4746 28.8792L28.2255 28.9012L28.2475 11.1503L10.4966 11.1283Z" />
+    <path d="M20.0078 1.62949L19.9858 19.3804L37.7367 19.4024L37.7587 1.65149L20.0078 1.62949Z" stroke="#040306"
+        stroke-miterlimit="10" />
 </svg>
 
-<svg class="banner-border" height="240" viewBox="0 0 2202 240" fill="none"
-    xmlns="http://www.w3.org/2000/svg">
+<svg class="banner-border" height="240" viewBox="0 0 2202 240" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
         d="M1 123.043C67.2858 167.865 259.022 257.325 549.762 188.784C764.181 125.427 967.75 112.601 1200.42 169.707C1347.76 205.869 1901.91 374.562 2201 1"
         stroke-width="2" />

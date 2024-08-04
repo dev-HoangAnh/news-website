@@ -34,7 +34,8 @@ class User extends Authenticatable
 
     public function postLinks()
     {
-        return $this->belongsToMany(Post::class, 'user_post', 'user_id', 'post_id');
+        return $this->belongsToMany(Post::class, 'user_post', 'user_id', 'post_id')
+                    ->withTimestamps();
     }
 
     public function comments()
