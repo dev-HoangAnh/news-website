@@ -51,19 +51,7 @@ class UserController extends Controller
                 ->route('users.index')
                 ->with('success', 'Thêm mới người dùng thành công.');
 
-        } catch (QueryException $e) {
-
-            // Log the error or handle it as needed
-            Log::error('Database query error: ' . $e->getMessage());
-
-            return redirect()
-                ->route('users.index')
-                ->with('error', 'Failed to create user.');
-
         } catch (Exception $e) {
-
-            // Handle general errors
-            Log::error('Unexpected error: ' . $e->getMessage());
 
             return redirect()
                 ->route('users.index')
@@ -104,17 +92,7 @@ class UserController extends Controller
                 ->route('users.index')
                 ->with('success', 'Cập nhật người dùng thành công.');
 
-        } catch (QueryException $e) {
-            // Log the error or handle it as needed
-            Log::error('Database query error: ' . $e->getMessage());
-
-            return redirect()
-                ->route('users.index')
-                ->with('error', 'Failed to update user.');
-
         } catch (Exception $e) {
-            // Handle general errors
-            Log::error('Unexpected error: ' . $e->getMessage());
 
             return redirect()
                 ->route('users.index')
@@ -145,18 +123,8 @@ class UserController extends Controller
                 ->route('users.index')
                 ->with('success', 'Xóa tài khoản người dùng thành công');
 
-        } catch (QueryException $e) {
-            // Log the error or handle it as needed
-            Log::error('Database query error: ' . $e->getMessage());
-
-            return redirect()
-                ->route('users.index')
-                ->with('error', 'Failed to delete user.');
-
         } catch (Exception $e) {
-            // Handle general errors
-            Log::error('Unexpected error: ' . $e->getMessage());
-
+            
             return redirect()
                 ->route('users.index')
                 ->with('error', 'An unexpected error occurred.');

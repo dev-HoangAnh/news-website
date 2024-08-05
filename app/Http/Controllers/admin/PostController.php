@@ -22,6 +22,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::with('user', 'category', 'users')->latest('id')->paginate(5);
+
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -78,8 +79,6 @@ class PostController extends Controller
             return redirect()->route('posts.index')->with('success', 'Thêm bản tin thành công.');
 
         } catch (Exception $e) {
-            Log::error(($e instanceof QueryException ? 'Database query error: ' : 'Unexpected error: ') . $e->getMessage());
-
             return redirect()
                 ->route('posts.index')
                 ->with('error', $e instanceof QueryException ? 'Failed to create post.' : 'An unexpected error occurred.');
@@ -133,9 +132,8 @@ class PostController extends Controller
             });
 
             return redirect()->route('posts.index')->with('success', 'Cập nhật bản tin thành công.');
+            
         } catch (Exception $e) {
-            Log::error(($e instanceof QueryException ? 'Database query error: ' : 'Unexpected error: ') . $e->getMessage());
-
             return redirect()
                 ->route('posts.index')
                 ->with('error', $e instanceof QueryException ? 'Failed to update post.' : 'An unexpected error occurred.');
@@ -150,10 +148,16 @@ class PostController extends Controller
         try {
             DB::transaction(function () use ($post) {
 
+                $imagePath = $post->image;
+
                 // Xóa các bản ghi trong bảng trung gian
                 $post->users()->detach();
 
                 $post->delete();
+
+                if ($imagePath && Storage::exists($imagePath)){
+                    Storage::delete($imagePath);
+                }
 
             });
 
@@ -162,7 +166,6 @@ class PostController extends Controller
                 ->with('success', 'Xóa bản tin thành công');
 
         } catch (Exception $e) {
-            Log::error(($e instanceof QueryException ? 'Database query error: ' : 'Unexpected error: ') . $e->getMessage());
 
             return redirect()
                 ->route('posts.index')
