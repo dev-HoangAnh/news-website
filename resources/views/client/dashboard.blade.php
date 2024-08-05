@@ -1,5 +1,12 @@
 @extends('client.layouts.master')
 
+@section('banner')
+    @include('client.components.banner', [
+        'pageName' => 'Bựa ni có gi?',
+        'categories' => $categories,
+    ])
+@endsection
+
 @section('content')
     <h1>Hi, {{ Auth::user()->name }}</h1>
 
@@ -12,371 +19,127 @@
     <section class="section pb-0">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-4 mb-5">
-                    <h2 class="h5 section-title">Editors Pick</h2>
+                    <h2 class="h5 section-title">Tin xem nhiều</h2>
                     <article class="card">
-                        <div class="post-slider slider-sm">
-                            <img src="images/post/post-1.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-
-                        <div class="card-body">
-                            <h3 class="h4 mb-3"><a class="post-title" href="post-details.html">Use apples to give your
-                                    bakes caramel and a moist texture</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="images/john-doe.jpg">
-                                        <span>Charls Xaviar</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Fish</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to …</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
-                </div>
-                <div class="col-lg-4 mb-5">
-                    <h2 class="h5 section-title">Trending Post</h2>
-
-                    <article class="card mb-4">
-                        <div class="card-body d-flex">
-                            <img class="card-img-sm" src="images/post/post-3.jpg">
-                            <div class="ml-3">
-                                <h4><a href="post-details.html" class="post-title">Advice From a Twenty Something</a>
-                                </h4>
-                                <ul class="card-meta list-inline mb-0">
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-calendar"></i>14 jan, 2020
+                        @foreach ($mostViewedPosts as $post)
+                            <div class="post-slider slider-sm">
+                                <img src="{{ Storage::url($post->image) }}" class="card-img-top" alt="post-thumb">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="h4 mb-3"><a class="post-title"
+                                        href="{{ route('posts.show.client', $post->id) }}">{{ $post->title }}</a></h3>
+                                <ul class="card-meta list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="{{ route('posts.show.client', $post->id) }}" class="card-meta-author">
+                                            <img src="/client/images/kate-stone.jpg" alt="...">
+                                            <span>{{ $post->user->name }}</span>
+                                        </a>
                                     </li>
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-timer"></i>2 Min To Read
+                                    <li class="list-inline-item">
+                                        <ul class="card-meta-tag list-inline">
+                                            <li class="list-inline-item">
+                                                <a href="{{ route('categories.show.client', $post->category->id) }}">
+                                                    {{ $post->category->name }}</a>
+                                            </li>
+                                        </ul>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </article>
 
-                    <article class="card mb-4">
-                        <div class="card-body d-flex">
-                            <img class="card-img-sm" src="images/post/post-2.jpg">
-                            <div class="ml-3">
-                                <h4><a href="post-details.html" class="post-title">The Design Files - Homes
-                                        Minimalist</a></h4>
-                                <ul class="card-meta list-inline mb-0">
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-calendar"></i>14 jan, 2020
-                                    </li>
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-timer"></i>2 Min To Read
-                                    </li>
-                                </ul>
+                                <a href="{{ route('posts.show.client', $post->id) }}" class="btn btn-outline-primary">Xem
+                                    thêm</a>
                             </div>
-                        </div>
-                    </article>
-
-                    <article class="card mb-4">
-                        <div class="card-body d-flex">
-                            <img class="card-img-sm" src="images/post/post-4.jpg">
-                            <div class="ml-3">
-                                <h4><a href="post-details.html" class="post-title">The Skinny Confidential</a></h4>
-                                <ul class="card-meta list-inline mb-0">
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-calendar"></i>14 jan, 2020
-                                    </li>
-                                    <li class="list-inline-item mb-0">
-                                        <i class="ti-timer"></i>2 Min To Read
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
+                        @endforeach
                     </article>
                 </div>
 
                 <div class="col-lg-4 mb-5">
-                    <h2 class="h5 section-title">Popular Post</h2>
+                    <h2 class="h5 section-title">Tin mới</h2>
+                    @foreach ($latestPosts as $post)
+                        <article class="card mb-4">
 
-                    <article class="card">
-                        <div class="post-slider slider-sm">
-                            <img src="images/post/post-5.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="h4 mb-3"><a class="post-title" href="post-details.html">How To Make Cupcakes and
-                                    Cashmere Recipe At Home</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="images/kate-stone.jpg" alt="Kate Stone">
-                                        <span>Kate Stone</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">City</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Food</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Taste</a></li>
+                            <div class="card-body d-flex">
+                                <img class="card-img-sm" src="{{ Storage::url($post->image) }}">
+                                <div class="ml-3">
+                                    <h4>
+                                        <a href="{{ route('posts.show.client', $post->id) }}"
+                                            class="post-title">{{ $post->title }}</a>
+                                    </h4>
+                                    <ul class="card-meta list-inline mb-0">
+                                        <li class="list-inline-item mb-0">
+                                            <i class="ti-calendar">{{ $post->created_at->format('d-m-Y H:i:s') }}</i>
+                                        </li>
+                                        <li class="list-inline-item mb-0">
+                                            <i class="ti-timer">{{ $post->updated_at->format('d-m-Y H:i:s') }}</i>
+                                        </li>
                                     </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to …</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+
                 </div>
+
+                @include('client.components.sidebar', $categories)
+
                 <div class="col-12">
                     <div class="border-bottom border-default"></div>
                 </div>
+
             </div>
         </div>
     </section>
+
     <section class="section-sm">
         <div class="container">
             <div class="row justify-content-center">
 
                 <div class="col-lg-8  mb-5 mb-lg-0">
-                    <h2 class="h5 section-title">Recent Post</h2>
-                    <article class="card mb-4">
-                        <div class="post-slider">
-                            <img src="/client/images/post/post-10.jpg" class="card-img-top" alt="post-thumb">
-                            <img src="/client/images/post/post-1.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-elements.html">Elements That You Can
-                                    Use
-                                    In This Template.</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/john-doe.jpg" alt="John Doe">
-                                        <span>John Doe</span>
+                    <h2 class="h5 section-title">Tất cả bản tin</h2>
+
+                    @foreach ($posts as $post)
+                        <article class="card mb-4">
+                            <div class="post-slider">
+                                <img src="{{ Storage::url($post->image) }}" class="card-img-top" alt="post-thumb">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="mb-3">
+                                    <a class="post-title" href="{{ route('posts.show.client', $post->id) }}">
+                                        {{ $post->title }}
                                     </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>3 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>15 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Demo</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Elements</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>Heading example Here is example of hedings. You can use this heading by following
-                                markdownify rules. For example: use # for heading 1 and use ###### for heading 6.</p>
-                            <a href="post-elements.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
+                                </h3>
+                                <ul class="card-meta list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="author-single.html" class="card-meta-author">
+                                            <img src="/client/images/john-doe.jpg" alt="John Doe">
+                                            <span>{{ $post->user->name }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="ti-timer">{{ $post->created_at->format('d-m-Y H:i:s') }}</i>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="ti-calendar">{{ $post->updated_at->format('d-m-Y H:i:s') }}</i>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <ul class="card-meta-tag list-inline">
+                                            <li class="list-inline-item"><a
+                                                    href="{{ route('categories.show.client', $post->category->id) }}">{{ $post->category->name }}</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
 
-                    <article class="card mb-4">
-                        <div class="post-slider">
-                            <img src="/client/images/post/post-3.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-details.html">Advice From a Twenty
-                                    Something</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/john-doe.jpg">
-                                        <span>Mark Dinn</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Decorate</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Creative</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to global
-                                brands, companies are reaching out to digital agencies, responding to the new
-                                possibilities available.</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
+                                <a href="{{ route('posts.show.client', $post->id) }}" class="btn btn-outline-primary">Xem
+                                    thêm</a>
+                            </div>
+                        </article>
+                    @endforeach
 
-                    <article class="card mb-4">
-                        <div class="post-slider">
-                            <img src="/client/images/post/post-7.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-details.html">Advice From a Twenty
-                                    Something</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/john-doe.jpg">
-                                        <span>Charls Xaviar</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Fish</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to global
-                                brands, companies are reaching out to digital agencies, responding to the new
-                                possibilities available.</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
-
-                    <article class="card mb-4">
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-details.html">Cheerful Loving Couple
-                                    Bakers Drinking Coffee</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/kate-stone.jpg" alt="Kate Stone">
-                                        <span>Kate Stone</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Wow</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Tasty</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to global
-                                brands, companies are reaching out to digital agencies, responding to the new
-                                possibilities available.</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
-
-                    <article class="card mb-4">
-                        <div class="post-slider">
-                            <img src="/client/images/post/post-5.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-details.html">How To Make Cupcakes
-                                    and
-                                    Cashmere Recipe At Home</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/kate-stone.jpg" alt="Kate Stone">
-                                        <span>Kate Stone</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">City</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Food</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Taste</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to global
-                                brands, companies are reaching out to digital agencies, responding to the new
-                                possibilities available.</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
-
-                    <article class="card mb-4">
-                        <div class="post-slider">
-                            <img src="/client/images/post/post-8.jpg" class="card-img-top" alt="post-thumb">
-                            <img src="/client/images/post/post-9.jpg" class="card-img-top" alt="post-thumb">
-                        </div>
-                        <div class="card-body">
-                            <h3 class="mb-3"><a class="post-title" href="post-details.html">How To Make Cupcakes
-                                    and
-                                    Cashmere Recipe At Home</a></h3>
-                            <ul class="card-meta list-inline">
-                                <li class="list-inline-item">
-                                    <a href="author-single.html" class="card-meta-author">
-                                        <img src="/client/images/john-doe.jpg" alt="John Doe">
-                                        <span>John Doe</span>
-                                    </a>
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-timer"></i>2 Min To Read
-                                </li>
-                                <li class="list-inline-item">
-                                    <i class="ti-calendar"></i>14 jan, 2020
-                                </li>
-                                <li class="list-inline-item">
-                                    <ul class="card-meta-tag list-inline">
-                                        <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                        <li class="list-inline-item"><a href="tags.html">Fish</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                            <p>It’s no secret that the digital industry is booming. From exciting startups to global
-                                brands, companies are reaching out to digital agencies, responding to the new
-                                possibilities available.</p>
-                            <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                        </div>
-                    </article>
-
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item page-item active ">
-                            <a href="#!" class="page-link">1</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#!" class="page-link">2</a>
-                        </li>
-                        <li class="page-item">
-                            <a href="#!" class="page-link">&raquo;</a>
-                        </li>
-                    </ul>
+                    {{-- Bắt buộc có cái này để làm phân trang --}}
+                    {{ $posts->links() }}
                 </div>
-
-                @include('client.components.sidebar')
-
             </div>
         </div>
     </section>

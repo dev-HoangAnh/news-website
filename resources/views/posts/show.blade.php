@@ -14,7 +14,7 @@
                         <h1 class="h2">{{ $post->title }}</h1>
                         <ul class="card-meta my-3 list-inline">
                             <li class="list-inline-item">
-                                <a href="author-single.html" class="card-meta-author">
+                                <a href="{{ route('posts.show.client', $post->id) }}" class="card-meta-author">
                                     <img src="/client/images/john-doe.jpg">
                                     <span>{{ $post->user->name }}</span>
                                 </a>
@@ -27,7 +27,7 @@
                             </li>
                             <li class="list-inline-item">
                                 <ul class="card-meta-tag list-inline">
-                                    <li class="list-inline-item"><a href="tags.html">{{ $post->category->name }}</a></li>
+                                    <li class="list-inline-item"><a href="{{ route('categories.show.client', $post->category->id) }}">{{ $post->category->name }}</a></li>
                                 </ul>
                             </li>
                         </ul>

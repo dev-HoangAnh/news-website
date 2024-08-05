@@ -32,25 +32,22 @@ Route::controller(AuthenController::class)
         Route::post('register', 'register');
     });
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('cl', [ClientController::class, 'dashboard'])
-        ->name('client.dashboard')
-        ->middleware('is_Client');
+Route::prefix('')->group(function () {
 
-    Route::middleware('is_Admin')
-        ->prefix('ad')
-        ->group(function () {
-            Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-            Route::resource('categories', CategoryController::class);
-            Route::resource('posts', PostController::class);
-            Route::resource('users', UserController::class);
-            Route::resource('posts', PostController::class);
-        });
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/posts/{post}', [ClientPostController::class, 'show'])->name('posts.show.client');
+    Route::get('/categories/{category}', [ClientCategoryController::class, 'show'])->name('categories.show.client');
+    Route::get('/search', [SearchController::class, 'search'])->name('search');
 });
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/posts/{post}', [ClientPostController::class, 'show'])->name('posts.show.client');
-Route::get('/categories/{category}', [ClientCategoryController::class, 'show'])->name('categories.show.client');
-Route::get('/search', [SearchController::class, 'search'])->name('search');
+Route::middleware('is_Admin')
+    ->prefix('ad')
+    ->group(function () {
+        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+
+        Route::resource('categories', CategoryController::class);
+        Route::resource('posts', PostController::class);
+        Route::resource('users', UserController::class);
+        Route::resource('posts', PostController::class);
+    });

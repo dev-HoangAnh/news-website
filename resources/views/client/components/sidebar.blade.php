@@ -11,10 +11,25 @@
 
     <!-- about me -->
     <div class="widget widget-about">
-        <h4 class="widget-title">XIN CHÀO!</h4>
-        <img class="img-fluid" src="/client/images/author.jpg" alt="Themefisher">
-        <a href="{{ route('login') }}" class="btn btn-primary mb-2">Đăng nhập</a><br>
-        <a href="{{ route('register') }}" class="btn btn-warning mb-2">Đăng kí</a>
+
+        @if (Auth::user())
+            <h4 class="widget-title">XIN CHÀO!
+                <br>
+
+                {{ Auth::user()->name }}
+            </h4>
+            <img class="img-fluid" src="/client/images/author.jpg" alt="Themefisher">
+            <form action="{{ route('logout') }}" method="post">
+                @csrf
+
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+        @else
+            <h4>Vui lòng đăng nhập</h4>
+            <a href="{{ route('login') }}" class="btn btn-primary mb-2">Đăng nhập</a><br>
+            <a href="{{ route('register') }}" class="btn btn-warning mb-2">Đăng kí</a>
+        @endif
+
     </div>
 
     <!-- categories -->
@@ -22,12 +37,14 @@
         <h4 class="widget-title"><span>Danh mục tin tức</span></h4>
         <ul class="list-unstyled widget-list">
 
-            @foreach ($categories as $category)
-                <li>
-                    <a href="{{ route('categories.show.client', $category->id) }}"
-                        class="d-flex">{{ $category->name }}</a>
-                </li>
-            @endforeach
+            @if (isset($categories))
+                @foreach ($categories as $category)
+                    <li>
+                        <a href="{{ route('categories.show.client', $category->id) }}"
+                            class="d-flex">{{ $category->name }}</a>
+                    </li>
+                @endforeach
+            @endif
 
         </ul>
     </div>

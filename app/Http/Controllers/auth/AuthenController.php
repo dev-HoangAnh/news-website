@@ -32,7 +32,7 @@ class AuthenController extends Controller
                 return redirect()->route('admin.dashboard');
             }
 
-            return redirect()->route('client.dashboard');
+            return redirect()->route('home');
         }
 
         return back()
@@ -59,7 +59,7 @@ class AuthenController extends Controller
 
         request()->session()->regenerate();
 
-        return redirect()->route('client.dashboard');
+        return redirect()->route('home');
     }
 
     public function logout()

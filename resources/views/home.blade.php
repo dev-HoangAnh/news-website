@@ -103,7 +103,7 @@
                                 </h3>
                                 <ul class="card-meta list-inline">
                                     <li class="list-inline-item">
-                                        <a href="author-single.html" class="card-meta-author">
+                                        <a href="{{ route('posts.show.client', $post->id) }}" class="card-meta-author">
                                             <img src="/client/images/john-doe.jpg" alt="John Doe">
                                             <span>{{ $post->user->name }}</span>
                                         </a>
